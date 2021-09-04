@@ -13,7 +13,7 @@ jobs:
           cache: npm
           registry-url: https://registry.npmjs.org
       - run: npm ci
-      - run: npm build
+      - run: npm run build
       - run: npx ts-node lib/cli.js --file package.json
       - run: npm publish
         env:
