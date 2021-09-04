@@ -26,15 +26,15 @@ const npmDocumentedFields = [
     'dependencies',
     'devDependencies',
     'peerDependencies',
+    'peerDependenciesMeta',
     'bundledDependencies',
     'optionalDependencies',
     'engines',
-    'engineStrict',
     'os',
     'cpu',
-    'preferGlobal',
     'private',
     'publishConfig',
+    'workspaces',
 ];
 
 /**
