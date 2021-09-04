@@ -20,7 +20,8 @@
         "lib"
     ],
     "bin": {
-        "cleanup-package-json": "lib/cli.js"
+        "cleanup-package-json": "lib/cli.js",
+        "nlib-cleanup-package-json": "lib/cli.js"
     },
     "scripts": {
         "build": "tsc --project tsconfig.build.json",
