@@ -14,7 +14,7 @@ jobs:
           registry-url: https://registry.npmjs.org
       - run: npm ci
       - run: npm run build
-      - run: npx ts-node lib/cli.js --file package.json
+      - run: node lib/cli.mjs --file package.json
       - run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
