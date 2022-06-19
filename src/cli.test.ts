@@ -1,10 +1,11 @@
 
-import {exec} from '@nlib/nodetool';
 import ava from 'ava';
 import {promises as afs} from 'fs';
 import * as os from 'os';
 import * as path from 'path';
-const scriptPath = path.join(__dirname, 'cli.ts');
+import {fileURLToPath} from 'url';
+import {exec} from './exec.private';
+const scriptPath = fileURLToPath(new URL('./cli.mjs', import.meta.url));
 
 ava('cleanup package.json', async (t) => {
     const directory = await afs.mkdtemp(path.join(os.tmpdir(), 'cleanup-package-json'));
@@ -17,7 +18,7 @@ ava('cleanup package.json', async (t) => {
         eslintConfig: '',
         commitlint: '',
     }, null, 4));
-    t.log(await exec(`npx ts-node ${scriptPath} --file ${packageJsonPath}`));
+    t.log(await exec(`node ${scriptPath} --file ${packageJsonPath}`));
     t.is(
         await afs.readFile(packageJsonPath, 'utf8'),
         JSON.stringify({
@@ -42,7 +43,7 @@ ava('keep some keys', async (t) => {
         key3: 'value3',
         key4: 'value4',
     }, null, 4));
-    t.log(await exec(`npx ts-node ${scriptPath} --file ${packageJsonPath} --keep key2 --keep key4`));
+    t.log(await exec(`node ${scriptPath} --keep key2 --keep key4 --file ${packageJsonPath}`));
     t.is(
         await afs.readFile(packageJsonPath, 'utf8'),
         JSON.stringify({

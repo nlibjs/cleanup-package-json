@@ -13,43 +13,45 @@
     "homepage": "https://github.com/nlibjs/cleanup-package-json",
     "repository": "https://github.com/nlibjs/cleanup-package-json",
     "engines": {
-        "node": ">=12"
+        "node": ">=14"
     },
-    "main": "lib/index.js",
+    "type": "module",
+    "main": "./lib/index.mjs",
     "files": [
-        "lib"
+        "lib",
+        "!**/*.test.*"
     ],
     "bin": {
-        "cleanup-package-json": "lib/cli.js",
-        "nlib-cleanup-package-json": "lib/cli.js"
+        "cleanup-package-json": "./lib/cli.mjs",
+        "nlib-cleanup-package-json": "./lib/cli.mjs"
     },
     "scripts": {
-        "build": "tsc --project tsconfig.build.json",
+        "build": "run-s build:*",
+        "build:tsc": "tsc",
+        "build:esmify": "esmify \"lib/**\"",
         "test": "run-s test:*",
-        "test:type": "tsc --noEmit",
-        "test:ava": "ava",
+        "test:build": "run-s test:build:*",
+        "test:build:tsc": "tsc",
+        "test:build:esmify": "esmify --keepSourceMap \"lib/**\"",
+        "test:unit": "ava",
         "lint": "eslint --ext .ts --ext .js src",
-        "version": "run-s version:*",
-        "version:changelog": "npx @nlib/changelog --output CHANGELOG.md",
+        "version": "run-s build version:*",
+        "version:changelog": "node lib/cli.mjs --output CHANGELOG.md",
         "version:add": "git add ."
     },
-    "dependencies": {
-        "@nlib/nodetool": "0.4.2"
-    },
     "devDependencies": {
-        "@nlib/eslint-config": "3.17.28",
+        "@nlib/eslint-config": "3.18.0",
+        "@nlib/esmify": "^0.1.2",
         "@nlib/githooks": "0.1.0",
-        "@nlib/test": "4.0.0",
-        "@types/eslint": "7.29.0",
-        "@types/node": "16.11.33",
-        "@typescript-eslint/eslint-plugin": "4.33.0",
-        "@typescript-eslint/parser": "4.33.0",
-        "ava": "3.15.0",
-        "eslint": "7.32.0",
-        "lint-staged": "11.2.6",
+        "@types/eslint": "8.4.3",
+        "@types/node": "18.0.0",
+        "@typescript-eslint/eslint-plugin": "5.28.0",
+        "@typescript-eslint/parser": "5.28.0",
+        "ava": "4.3.0",
+        "eslint": "8.18.0",
+        "lint-staged": "13.0.2",
         "npm-run-all": "4.1.5",
-        "ts-node": "10.7.0",
-        "typescript": "4.6.4"
+        "typescript": "4.7.4"
     },
     "eslintConfig": {
         "extends": [
@@ -63,21 +65,12 @@
         }
     },
     "ava": {
-        "extensions": [
-            "ts"
-        ],
-        "require": [
-            "ts-node/register"
-        ],
         "files": [
-            "src/**/*.test.ts"
+            "lib/**/*.test.{ts,tsx,js,mjs,cjs,jsx}"
         ]
     },
     "lint-staged": {
-        "*.ts": [
-            "eslint"
-        ],
-        "*.js": [
+        "*.{ts,tsx,js,mjs,cjs,jsx}": [
             "eslint"
         ]
     },
@@ -85,5 +78,8 @@
         "extends": [
             "github>nlibjs/renovate-config"
         ]
+    },
+    "dependencies": {
+        "commander": "9.3.0"
     }
 }

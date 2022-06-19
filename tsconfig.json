@@ -4,15 +4,15 @@
     },
     "compilerOptions": {
         "target": "esnext",
-        "module": "commonjs",
+        "module": "esnext",
         "moduleResolution": "node",
-        "resolveJsonModule": true,
         "strict": true,
         "removeComments": true,
         "declaration": true,
         "noFallthroughCasesInSwitch": true,
         "noImplicitReturns": true,
         "noUnusedLocals": true,
-        "noUnusedParameters": true
+        "noUnusedParameters": true,
+        "outDir": "lib"
     }
 }
