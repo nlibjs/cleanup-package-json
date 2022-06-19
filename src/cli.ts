@@ -1,9 +1,9 @@
 #!/usr/bin/env node
-import * as console from 'console';
-import * as path from 'path';
-import * as fs from 'fs';
-import {cleanupPackageJSONFile} from './cleanupPackageJson';
 import {Command} from 'commander';
+import * as console from 'console';
+import * as fs from 'fs';
+import * as path from 'path';
+import {cleanupPackageJSONFile} from './cleanupPackageJson';
 
 const packageJson = JSON.parse(
     fs.readFileSync(new URL('../package.json', import.meta.url), 'utf-8'),
