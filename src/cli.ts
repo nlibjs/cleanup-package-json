@@ -1,53 +1,32 @@
 #!/usr/bin/env node
-import {createCLIArgumentsParser, getVersion, serializeDefinitionMap} from '@nlib/nodetool';
 import * as console from 'console';
 import * as path from 'path';
-import type {Writable} from 'stream';
+import * as fs from 'fs';
 import {cleanupPackageJSONFile} from './cleanupPackageJson';
+import {Command} from 'commander';
 
-const parse = createCLIArgumentsParser({
-    file: {
-        type: 'string',
-        alias: 'f',
-        description: 'A path to a package.json',
-    },
-    keep: {
-        type: 'string[]?',
-        description: 'Specify keys to keep in output',
-    },
-    help: {
-        type: 'boolean',
-        alias: 'h',
-        description: 'Show help',
-    },
-    version: {
-        type: 'boolean',
-        alias: 'v',
-        description: 'Output the version number',
-    },
-});
+const packageJson = JSON.parse(
+    fs.readFileSync(new URL('../package.json', import.meta.url), 'utf-8'),
+) as unknown as {name: string, version: string, description: string};
 
-export const cleanupPackageJsonCLI = async (
-    args: Array<string>,
-    stdout: Writable = process.stdout,
-): Promise<void> => {
-    if (args.includes('--help') || args.includes('-h')) {
-        stdout.write('cleanup-package-json --file path/to/package.json\n\n');
-        for (const help of serializeDefinitionMap(parse.definition)) {
-            stdout.write(help);
-        }
-    } else if (args.includes('--version') || args.includes('-v')) {
-        stdout.write(`${getVersion(path.join(__dirname, '../package.json'))}\n`);
-    } else {
-        const {file, ...options} = parse(args);
+const program = new Command();
+program.name(packageJson.name);
+program.description(packageJson.description);
+program.requiredOption('--file <file>', 'A path to package.json.');
+program.option('--keep <fields...>', 'Specify keys to keep in the output.');
+program.version(packageJson.version);
+program.action(
+    async (
+        {file, ...options}: {
+            file: string,
+            keep?: Array<string>,
+        },
+    ) => {
         await cleanupPackageJSONFile(path.resolve(file), options);
-    }
-};
-
-if (require.main === module) {
-    cleanupPackageJsonCLI(process.argv.slice(2))
-    .catch((error) => {
-        console.error(error);
-        process.exit(1);
-    });
-}
+    },
+);
+program.parseAsync()
+.catch((error) => {
+    console.error(error);
+    process.exit(1);
+});
