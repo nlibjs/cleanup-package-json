@@ -1,6 +1,17 @@
 # Changelog
 
+## v0.2.0 (2022-06-19)
+
+### Bug Fixes
+
+- release script ([657cca7](https://github.com/nlibjs/cleanup-package-json/commit/657cca78213636059c7fb8465357b4fa22ef6259))
+
+
 ## v0.3.0 (2022-06-19)
+
+### Bug Fixes
+
+- nlib-changelog command ([e1dd787](https://github.com/nlibjs/cleanup-package-json/commit/e1dd78731283e944463db40e8579f506fad946a7))
 
 ### Code Refactoring
 
