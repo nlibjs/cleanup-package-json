@@ -39,6 +39,9 @@
         "version:changelog": "nlib-changelog --output CHANGELOG.md",
         "version:add": "git add ."
     },
+    "dependencies": {
+        "commander": "9.3.0"
+    },
     "devDependencies": {
         "@nlib/changelog": "0.2.0",
         "@nlib/eslint-config": "3.18.0",
@@ -79,8 +82,5 @@
         "extends": [
             "github>nlibjs/renovate-config"
         ]
-    },
-    "dependencies": {
-        "commander": "9.3.0"
     }
 }
