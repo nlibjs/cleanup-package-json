@@ -1,6 +1,30 @@
 # Changelog
 
-## v0.2.0 (2022-06-19)
+## v0.3.2 (2023-01-09)
+
+### Bug Fixes
+
+- author.url ([97c6b2c](https://github.com/nlibjs/cleanup-package-json/commit/97c6b2cdc0232e5214a3c2da09ec4050bd38ce95))
+
+### Styles
+
+- fix eslint errors ([c8d38bf](https://github.com/nlibjs/cleanup-package-json/commit/c8d38bf296e0aee0d451547f6d31f28a2244e513))
+- sort imports ([6465aa0](https://github.com/nlibjs/cleanup-package-json/commit/6465aa0ec5c27f8781835075dda33fccbc2366e1))
+
+### Documentation
+
+- fix badges ([e821386](https://github.com/nlibjs/cleanup-package-json/commit/e821386010c5f24aa08740f6d4abce3f8bae2929))
+
+### Dependency Upgrades
+
+- upgrade dependencies ([360dabf](https://github.com/nlibjs/cleanup-package-json/commit/360dabfbbfedf5ae36da972ad69f376aa452f5ee))
+- @nlib/eslint-config:3.18.0→3.19.6 ([fa2e43d](https://github.com/nlibjs/cleanup-package-json/commit/fa2e43ddc80597e63e9534705f665bb889c4838e))
+- commander:9.4.1→9.5.0 ([9375e3c](https://github.com/nlibjs/cleanup-package-json/commit/9375e3c943bffbe6bdd64affabe3b8489e6d725a))
+- @nlib/esmify:0.3.2→0.3.3 ([b81fb67](https://github.com/nlibjs/cleanup-package-json/commit/b81fb678afc23fb0681583685f8459c107938a87))
+- @nlib/changelog:0.2.3→0.2.4 ([d487840](https://github.com/nlibjs/cleanup-package-json/commit/d48784013887fd48122c91dd3dd8a2ecf0b624fd))
+
+
+## v0.3.1 (2022-06-19)
 
 ### Bug Fixes
 
