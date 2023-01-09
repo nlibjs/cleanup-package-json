@@ -1,10 +1,11 @@
 
-import ava from 'ava';
 import {promises as afs} from 'fs';
 import * as os from 'os';
 import * as path from 'path';
 import {fileURLToPath} from 'url';
+import ava from 'ava';
 import {exec} from './exec.private';
+
 const scriptPath = fileURLToPath(new URL('./cli.mjs', import.meta.url));
 
 ava('cleanup package.json', async (t) => {
