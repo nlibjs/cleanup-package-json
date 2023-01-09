@@ -1,8 +1,8 @@
 #!/usr/bin/env node
-import {Command} from 'commander';
 import * as console from 'console';
 import * as fs from 'fs';
 import * as path from 'path';
+import {Command} from 'commander';
 import {cleanupPackageJSONFile} from './cleanupPackageJson';
 
 const packageJson = JSON.parse(
