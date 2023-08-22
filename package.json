@@ -72,7 +72,7 @@
   },
   "ava": {
     "files": [
-      "lib/**/*.test.{ts,tsx,js,mjs,cjs,jsx}"
+      "lib/**/*.test.*(m|c)+(j|t)s*(x)"
     ]
   },
   "lint-staged": {
