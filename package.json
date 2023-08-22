@@ -1,87 +1,87 @@
 {
-    "name": "@nlib/cleanup-package-json",
-    "publishConfig": {
-        "access": "public"
-    },
-    "version": "0.3.2",
-    "license": "Apache-2.0",
-    "author": {
-        "name": "Kei Ito",
-        "email": "kei.itof@gmail.com",
-        "url": "https://gojabako.zone"
-    },
-    "homepage": "https://github.com/nlibjs/cleanup-package-json",
-    "repository": "https://github.com/nlibjs/cleanup-package-json",
-    "engines": {
-        "node": ">=14"
-    },
-    "type": "module",
-    "main": "./lib/index.mjs",
-    "files": [
-        "lib",
-        "!**/*.test.*"
+  "name": "@nlib/cleanup-package-json",
+  "publishConfig": {
+    "access": "public"
+  },
+  "version": "0.3.2",
+  "license": "Apache-2.0",
+  "author": {
+    "name": "Kei Ito",
+    "email": "kei.itof@gmail.com",
+    "url": "https://gojabako.zone"
+  },
+  "homepage": "https://github.com/nlibjs/cleanup-package-json",
+  "repository": "https://github.com/nlibjs/cleanup-package-json",
+  "engines": {
+    "node": ">=14"
+  },
+  "type": "module",
+  "main": "./lib/index.mjs",
+  "files": [
+    "lib",
+    "!**/*.test.*"
+  ],
+  "bin": {
+    "cleanup-package-json": "./lib/cli.mjs",
+    "nlib-cleanup-package-json": "./lib/cli.mjs"
+  },
+  "scripts": {
+    "build": "run-s build:*",
+    "build:tsc": "tsc",
+    "build:esmify": "esmify \"lib/**\"",
+    "test": "run-s test:*",
+    "test:build": "run-s test:build:*",
+    "test:build:tsc": "tsc",
+    "test:build:esmify": "esmify --keepSourceMap \"lib/**\"",
+    "test:unit": "ava",
+    "lint": "eslint --ext .ts --ext .js src",
+    "postversion": "run-s postversion:*",
+    "postversion:changelog": "nlib-changelog --output CHANGELOG.md",
+    "postversion:add": "git add .",
+    "postversion:amend": "git commit -m \"$(git log -1 --format=%s)\" --amend"
+  },
+  "dependencies": {
+    "commander": "9.5.0"
+  },
+  "devDependencies": {
+    "@nlib/changelog": "0.3.0",
+    "@nlib/eslint-config": "3.19.6",
+    "@nlib/esmify": "0.3.3",
+    "@nlib/githooks": "0.1.0",
+    "@types/eslint": "8.44.2",
+    "@types/node": "20.5.1",
+    "@typescript-eslint/eslint-plugin": "5.62.0",
+    "@typescript-eslint/parser": "5.62.0",
+    "ava": "5.3.1",
+    "eslint": "8.47.0",
+    "lint-staged": "14.0.1",
+    "npm-run-all": "4.1.5",
+    "prettier": "3.0.2",
+    "typescript": "4.9.5"
+  },
+  "eslintConfig": {
+    "extends": [
+      "@nlib/eslint-config"
     ],
-    "bin": {
-        "cleanup-package-json": "./lib/cli.mjs",
-        "nlib-cleanup-package-json": "./lib/cli.mjs"
+    "env": {
+      "node": true
     },
-    "scripts": {
-        "build": "run-s build:*",
-        "build:tsc": "tsc",
-        "build:esmify": "esmify \"lib/**\"",
-        "test": "run-s test:*",
-        "test:build": "run-s test:build:*",
-        "test:build:tsc": "tsc",
-        "test:build:esmify": "esmify --keepSourceMap \"lib/**\"",
-        "test:unit": "ava",
-        "lint": "eslint --ext .ts --ext .js src",
-        "postversion": "run-s postversion:*",
-        "postversion:changelog": "nlib-changelog --output CHANGELOG.md",
-        "postversion:add": "git add .",
-        "postversion:amend": "git commit -m \"$(git log -1 --format=%s)\" --amend"
-    },
-    "dependencies": {
-        "commander": "9.5.0"
-    },
-    "devDependencies": {
-        "@nlib/changelog": "0.3.0",
-        "@nlib/eslint-config": "3.19.6",
-        "@nlib/esmify": "0.3.3",
-        "@nlib/githooks": "0.1.0",
-        "@types/eslint": "8.44.2",
-        "@types/node": "20.5.1",
-        "@typescript-eslint/eslint-plugin": "5.62.0",
-        "@typescript-eslint/parser": "5.62.0",
-        "ava": "5.3.1",
-        "eslint": "8.47.0",
-        "lint-staged": "13.3.0",
-        "npm-run-all": "4.1.5",
-        "typescript": "4.9.5"
-    },
-    "eslintConfig": {
-        "extends": [
-            "@nlib/eslint-config"
-        ],
-        "env": {
-            "node": true
-        },
-        "rules": {
-            "@nlib/no-globals": "off"
-        }
-    },
-    "ava": {
-        "files": [
-            "lib/**/*.test.{ts,tsx,js,mjs,cjs,jsx}"
-        ]
-    },
-    "lint-staged": {
-        "*.{ts,tsx,js,mjs,cjs,jsx}": [
-            "eslint"
-        ]
-    },
-    "renovate": {
-        "extends": [
-            "github>nlibjs/renovate-config"
-        ]
+    "rules": {
+      "@nlib/no-globals": "off"
     }
+  },
+  "ava": {
+    "files": [
+      "lib/**/*.test.{ts,tsx,js,mjs,cjs,jsx}"
+    ]
+  },
+  "lint-staged": {
+    "**/*": "prettier --write --ignore-unknown",
+    "**/*.*(m|c)+(j|t)s*(x)": "eslint"
+  },
+  "renovate": {
+    "extends": [
+      "github>nlibjs/renovate-config"
+    ]
+  }
 }
