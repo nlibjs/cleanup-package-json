@@ -27,6 +27,7 @@ export const npmDocumentedFields = [
   'peerDependenciesMeta',
   'bundledDependencies',
   'optionalDependencies',
+  'overrides',
   'engines',
   'os',
   'cpu',
