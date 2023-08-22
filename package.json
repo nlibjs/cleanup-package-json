@@ -35,15 +35,16 @@
         "test:build:esmify": "esmify --keepSourceMap \"lib/**\"",
         "test:unit": "ava",
         "lint": "eslint --ext .ts --ext .js src",
-        "version": "run-s build version:*",
-        "version:changelog": "nlib-changelog --output CHANGELOG.md",
-        "version:add": "git add ."
+        "postversion": "run-s postversion:*",
+        "postversion:changelog": "nlib-changelog --output CHANGELOG.md",
+        "postversion:add": "git add .",
+        "postversion:amend": "git commit -m \"$(git log -1 --format=%s)\" --amend"
     },
     "dependencies": {
         "commander": "9.5.0"
     },
     "devDependencies": {
-        "@nlib/changelog": "0.2.4",
+        "@nlib/changelog": "0.3.0",
         "@nlib/eslint-config": "3.19.6",
         "@nlib/esmify": "0.3.3",
         "@nlib/githooks": "0.1.0",
