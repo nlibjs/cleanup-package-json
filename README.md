@@ -7,9 +7,24 @@ A command line tool to cleanup package.json before publish. It will keep the fie
 
 ## Usage
 
+Requires Node.js 22.20.0 or later.
+
 ```
 npx @nlib/cleanup-package-json --file package.json
 ```
+
+## Development
+
+```sh
+npm ci
+npm run lint
+npm run format:check
+npm test
+```
+
+Git hooks are not installed automatically. Lint, formatting, and tests run in CI.
+If an existing checkout uses the old hooks, remove the setting with
+`git config --local --unset core.hooksPath` when it points to `.githooks`.
 
 ## LICENSE
 
