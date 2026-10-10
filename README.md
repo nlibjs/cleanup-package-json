@@ -81,6 +81,17 @@ Run `npm run lint -- --write` to apply formatting and safe fixes.
 TypeScript 7 checks types and generates the JavaScript build and declarations
 when running `npm run build`.
 
+### Field policy updates
+
+`schemastore/package-json-keys.json` is a snapshot of the top-level properties
+in the [SchemaStore package.json schema](https://github.com/SchemaStore/schemastore/blob/master/src/schemas/json/package.json).
+A test requires a policy in `src/documentedFields.mts` for every key in the
+snapshot. The tool itself never fetches the schema.
+
+A scheduled workflow runs `node scripts/check-schemastore.mjs` every Monday and
+fails when SchemaStore has keys that the snapshot does not. To handle it, add a
+policy for each new key and run `node scripts/check-schemastore.mjs --update`.
+
 Git hooks are not installed automatically. Lint, formatting, and tests run in CI.
 If an existing checkout uses the old hooks, remove the setting with
 `git config --local --unset core.hooksPath` when it points to `.githooks`.
