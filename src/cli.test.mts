@@ -180,3 +180,38 @@ ava('keep __proto__ as an own property', async (t) => {
     ),
   );
 });
+
+ava('--dry-run prints the result without changing the file', async (t) => {
+  const directory = fs.mkdtempSync(
+    path.join(os.tmpdir(), 'cleanup-package-json'),
+  );
+  const packageJsonPath = path.join(directory, 'a.json');
+  const input = JSON.stringify({
+    name: 'foo',
+    types: './index.d.ts',
+    ava: {},
+    eslintConfig: {},
+    key1: 'value1',
+  });
+  fs.writeFileSync(packageJsonPath, input);
+  const command = `node ${scriptPath} --file ${packageJsonPath} --keep key1`;
+  const preview = await exec(`${command} --dry-run`);
+  t.is(fs.readFileSync(packageJsonPath, 'utf8'), input);
+  t.is(preview.stderr, 'Keys to remove: ava, eslintConfig');
+  await exec(command);
+  t.is(preview.stdout, fs.readFileSync(packageJsonPath, 'utf8'));
+});
+
+ava('--dry-run reports when nothing would be removed', async (t) => {
+  const directory = fs.mkdtempSync(
+    path.join(os.tmpdir(), 'cleanup-package-json'),
+  );
+  const packageJsonPath = path.join(directory, 'a.json');
+  fs.writeFileSync(packageJsonPath, '{"name":"foo"}');
+  const { stdout, stderr } = await exec(
+    `node ${scriptPath} --file ${packageJsonPath} --dry-run`,
+  );
+  t.is(stderr, 'No keys to remove.');
+  t.is(stdout, JSON.stringify({ name: 'foo' }, null, 4));
+  t.is(fs.readFileSync(packageJsonPath, 'utf8'), '{"name":"foo"}');
+});
