@@ -5,38 +5,66 @@ interface CleanupPackageJSONOptions {
   keep?: Array<string>;
 }
 
-const cleanupPackageJSON = <T extends Record<string, unknown>>(
-  packageJSON: T,
+interface CleanupPackageJSONResult {
+  packageJSON: Record<string, unknown>;
+  removedKeys: Array<string>;
+}
+
+const isJSONObject = (value: unknown): value is Record<string, unknown> =>
+  typeof value === 'object' && value !== null && !Array.isArray(value);
+
+const describeJSONValue = (value: unknown): string => {
+  if (value === null) {
+    return 'null';
+  }
+  if (Array.isArray(value)) {
+    return 'an array';
+  }
+  return `a ${typeof value}`;
+};
+
+const cleanupPackageJSON = (
+  packageJSON: Record<string, unknown>,
   { keep = [] }: CleanupPackageJSONOptions = {},
-): Partial<T> => {
-  const result: Partial<T> = {};
-  for (const key of Object.keys(packageJSON) as Array<keyof T>) {
-    if (isPackageJSONRequiredKey(key as string, keep)) {
+): CleanupPackageJSONResult => {
+  /** A null prototype keeps keys such as "__proto__" as own properties. */
+  const result = Object.create(null) as Record<string, unknown>;
+  const removedKeys: Array<string> = [];
+  for (const key of Object.keys(packageJSON)) {
+    if (isPackageJSONRequiredKey(key, keep)) {
       result[key] = packageJSON[key];
+    } else {
+      removedKeys.push(key);
     }
   }
-  return result;
+  return { packageJSON: result, removedKeys };
 };
 
 interface CleanupPackageJSONFileOptions extends CleanupPackageJSONOptions {
   indent?: number;
+  dryRun?: boolean;
 }
 
 export const cleanupPackageJSONFile = async (
   packageJSONPath: string,
-  { indent = 4, ...options }: CleanupPackageJSONFileOptions = {},
+  {
+    indent = 4,
+    dryRun = false,
+    ...options
+  }: CleanupPackageJSONFileOptions = {},
 ) => {
-  await fs.promises.writeFile(
-    packageJSONPath,
-    JSON.stringify(
-      cleanupPackageJSON(
-        JSON.parse(
-          await fs.promises.readFile(packageJSONPath, 'utf8'),
-        ) as Record<string, unknown>,
-        options,
-      ),
-      null,
-      indent,
-    ),
+  const parsed: unknown = JSON.parse(
+    await fs.promises.readFile(packageJSONPath, 'utf8'),
   );
+  if (!isJSONObject(parsed)) {
+    throw new TypeError(
+      `${packageJSONPath} must contain a JSON object, but it contains ${describeJSONValue(parsed)}.`,
+    );
+  }
+  const { packageJSON, removedKeys } = cleanupPackageJSON(parsed, options);
+  const json = JSON.stringify(packageJSON, null, indent);
+  if (!dryRun) {
+    await fs.promises.writeFile(packageJSONPath, json);
+  }
+  return { json, removedKeys };
 };

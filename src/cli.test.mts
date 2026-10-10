@@ -137,3 +137,46 @@ ava('devDependencies is removed unless kept explicitly', async (t) => {
   );
   t.deepEqual(JSON.parse(fs.readFileSync(packageJsonPath, 'utf8')), input);
 });
+
+const invalidInputs = [
+  '[{"name":"example"}]',
+  '"example"',
+  '42',
+  'true',
+  'null',
+  '{',
+];
+
+for (const input of invalidInputs) {
+  ava(`reject ${input} without changing the file`, async (t) => {
+    const directory = fs.mkdtempSync(
+      path.join(os.tmpdir(), 'cleanup-package-json'),
+    );
+    const packageJsonPath = path.join(directory, 'a.json');
+    fs.writeFileSync(packageJsonPath, input);
+    const error = await t.throwsAsync<childProcess.ExecException>(
+      exec(`node ${scriptPath} --file ${packageJsonPath}`),
+    );
+    t.not(error?.code, 0);
+    t.is(fs.readFileSync(packageJsonPath, 'utf8'), input);
+  });
+}
+
+ava('keep __proto__ as an own property', async (t) => {
+  const directory = fs.mkdtempSync(
+    path.join(os.tmpdir(), 'cleanup-package-json'),
+  );
+  const packageJsonPath = path.join(directory, 'a.json');
+  fs.writeFileSync(packageJsonPath, '{"name":"example","__proto__":{"x":1}}');
+  t.log(
+    await exec(`node ${scriptPath} --file ${packageJsonPath} --keep __proto__`),
+  );
+  t.is(
+    fs.readFileSync(packageJsonPath, 'utf8'),
+    JSON.stringify(
+      JSON.parse('{"name":"example","__proto__":{"x":1}}'),
+      null,
+      4,
+    ),
+  );
+});
