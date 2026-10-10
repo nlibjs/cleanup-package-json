@@ -1,8 +1,8 @@
+import * as childProcess from 'node:child_process';
+import * as console from 'node:console';
 import * as fs from 'node:fs';
 import * as os from 'node:os';
 import * as path from 'node:path';
-import * as console from 'node:console';
-import * as childProcess from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import ava from 'ava';
 
@@ -16,15 +16,19 @@ export const exec = async (
   options: childProcess.ExecOptions = {},
 ): Promise<ExecResult> =>
   await new Promise<ExecResult>((resolve, reject) => {
-    childProcess.exec(command, options, (error, stdout, stderr) => {
-      if (error) {
-        console.info(`--- stdout ---\n${stdout}`);
-        console.info(`--- stderr ---\n${stderr}`);
-        reject(error);
-      } else {
-        resolve({ stdout: stdout.trim(), stderr: stderr.trim() });
-      }
-    });
+    childProcess.exec(
+      command,
+      { ...options, encoding: 'utf8' },
+      (error, stdout, stderr) => {
+        if (error) {
+          console.info(`--- stdout ---\n${stdout}`);
+          console.info(`--- stderr ---\n${stderr}`);
+          reject(error);
+        } else {
+          resolve({ stdout: stdout.trim(), stderr: stderr.trim() });
+        }
+      },
+    );
   });
 
 const scriptPath = fileURLToPath(new URL('./cli.mjs', import.meta.url));
