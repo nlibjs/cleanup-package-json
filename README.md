@@ -55,9 +55,13 @@ is not valid JSON or its root is not an object.
 ```sh
 npm ci
 npm run lint
-npm run format:check
 npm test
 ```
+
+Biome checks formatting, imports, and lint rules for TypeScript and JSON files.
+Run `npm run lint -- --write` to apply formatting and safe fixes.
+TypeScript 7 checks types and generates the JavaScript build and declarations
+when running `npm run build`.
 
 Git hooks are not installed automatically. Lint, formatting, and tests run in CI.
 If an existing checkout uses the old hooks, remove the setting with
