@@ -22,8 +22,8 @@
 		"!**/*.test.*"
 	],
 	"bin": {
-		"cleanup-package-json": "./lib/cli.mjs",
-		"nlib-cleanup-package-json": "./lib/cli.mjs"
+		"cleanup-package-json": "./esm/cli.mjs",
+		"nlib-cleanup-package-json": "./esm/cli.mjs"
 	},
 	"scripts": {
 		"build": "tsc",
