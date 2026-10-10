@@ -97,3 +97,43 @@ ava('keep some keys', async (t) => {
     ),
   );
 });
+
+ava('keep fields required by TypeScript, bundlers, and npm', async (t) => {
+  const directory = fs.mkdtempSync(
+    path.join(os.tmpdir(), 'cleanup-package-json'),
+  );
+  const packageJsonPath = path.join(directory, 'a.json');
+  const kept = {
+    name: 'example',
+    types: './index.d.ts',
+    typings: './index.d.ts',
+    typesVersions: { '*': { '*': ['types/*'] } },
+    module: './index.mjs',
+    sideEffects: ['./polyfill.js'],
+    bundleDependencies: ['a'],
+    bundledDependencies: ['b'],
+    libc: ['glibc'],
+    gypfile: false,
+  };
+  fs.writeFileSync(
+    packageJsonPath,
+    JSON.stringify({ ...kept, devDependencies: {}, ava: {} }, null, 4),
+  );
+  t.log(await exec(`node ${scriptPath} --file ${packageJsonPath}`));
+  t.deepEqual(JSON.parse(fs.readFileSync(packageJsonPath, 'utf8')), kept);
+});
+
+ava('devDependencies is removed unless kept explicitly', async (t) => {
+  const directory = fs.mkdtempSync(
+    path.join(os.tmpdir(), 'cleanup-package-json'),
+  );
+  const packageJsonPath = path.join(directory, 'a.json');
+  const input = { name: 'example', devDependencies: { a: '1.0.0' } };
+  fs.writeFileSync(packageJsonPath, JSON.stringify(input));
+  t.log(
+    await exec(
+      `node ${scriptPath} --file ${packageJsonPath} --keep devDependencies`,
+    ),
+  );
+  t.deepEqual(JSON.parse(fs.readFileSync(packageJsonPath, 'utf8')), input);
+});
