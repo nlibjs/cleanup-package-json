@@ -19,8 +19,9 @@ Removed fields:
 
 - `devDependencies`, even though npm documents it, because installing the
   published package does not install them.
-- `devEngines`, `packageManager`, and `packageExtensions`, because npm,
-  Corepack, Yarn, and pnpm only read them in the project root.
+- `overrides`, `workspaces`, `devEngines`, `packageManager`, and
+  `packageExtensions`, because npm, Corepack, Yarn, and pnpm only read them in
+  the project root.
 - Every other field, such as configuration for linters and test runners.
 
 Each field's reason and source are listed in

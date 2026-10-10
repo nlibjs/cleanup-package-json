@@ -225,6 +225,8 @@ ava("remove fields that only the project root reads", async (t) => {
 		packageJsonPath,
 		JSON.stringify({
 			name: "example",
+			overrides: { a: "1.0.0" },
+			workspaces: ["packages/*"],
 			devEngines: { runtime: { name: "node" } },
 			packageManager: "npm@11.0.0",
 			packageExtensions: { a: { dependencies: { b: "1.0.0" } } },

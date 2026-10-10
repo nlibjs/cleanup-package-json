@@ -39,8 +39,6 @@ const removed = (source: string, reason: string): FieldPolicy => ({
 const metadata = "Describes the package on the registry.";
 const install = "npm reads it when the package is installed as a dependency.";
 const runtime = "Consumers or npm commands read it from the installed package.";
-const compatibility =
-	"npm only reads it in the project root. Kept because earlier versions of this tool kept it.";
 const rootOnly =
 	"Only the project root reads it, so installing the package does not use it.";
 
@@ -84,14 +82,14 @@ export const fieldPolicies: ReadonlyMap<string, FieldPolicy> = new Map([
 	["bundleDependencies", kept(npm, install)],
 	["bundledDependencies", kept(npm, `${install} Alias of bundleDependencies.`)],
 	["optionalDependencies", kept(npm, install)],
-	["overrides", kept(npm, compatibility)],
+	["overrides", removed(npm, rootOnly)],
 	["engines", kept(npm, install)],
 	["os", kept(npm, install)],
 	["cpu", kept(npm, install)],
 	["libc", kept(npm, install)],
 	["private", kept(npm, "npm refuses to publish the package when it is true.")],
 	["publishConfig", kept(npm, "npm publish reads it.")],
-	["workspaces", kept(npm, compatibility)],
+	["workspaces", removed(npm, rootOnly)],
 	["gypfile", kept(npmScripts, install)],
 	["type", kept(nodeModules, runtime)],
 	["imports", kept(nodeModules, runtime)],
