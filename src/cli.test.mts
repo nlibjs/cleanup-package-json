@@ -215,3 +215,24 @@ ava("--dry-run reports when nothing would be removed", async (t) => {
 	t.is(stdout, JSON.stringify({ name: "foo" }, null, 4));
 	t.is(fs.readFileSync(packageJsonPath, "utf8"), '{"name":"foo"}');
 });
+
+ava("remove fields that only the project root reads", async (t) => {
+	const directory = fs.mkdtempSync(
+		path.join(os.tmpdir(), "cleanup-package-json"),
+	);
+	const packageJsonPath = path.join(directory, "a.json");
+	fs.writeFileSync(
+		packageJsonPath,
+		JSON.stringify({
+			name: "example",
+			devEngines: { runtime: { name: "node" } },
+			packageManager: "npm@11.0.0",
+			packageExtensions: { a: { dependencies: { b: "1.0.0" } } },
+			toString: "x",
+		}),
+	);
+	t.log(await exec(`node ${scriptPath} --file ${packageJsonPath}`));
+	t.deepEqual(JSON.parse(fs.readFileSync(packageJsonPath, "utf8")), {
+		name: "example",
+	});
+});

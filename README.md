@@ -15,8 +15,25 @@ Kept fields:
 - Fields that TypeScript reads: `types`, `typings`, and `typesVersions`.
 - Fields that bundlers read: `module` and `sideEffects`.
 
-`devDependencies` is removed even though npm documents it, because installing
-the published package does not use it.
+Removed fields:
+
+- `devDependencies`, even though npm documents it, because installing the
+  published package does not install them.
+- `devEngines`, `packageManager`, and `packageExtensions`, because npm,
+  Corepack, Yarn, and pnpm only read them in the project root.
+- Every other field, such as configuration for linters and test runners.
+
+Each field's reason and source are listed in
+[src/documentedFields.mts](src/documentedFields.mts). The rules apply in this
+order:
+
+1. A field given with `--keep` is kept.
+2. A field listed as removed, such as `devDependencies`, is removed.
+3. A field listed as kept is kept.
+4. Any other field is removed.
+
+A field that is valid in package.json is not necessarily kept. A field is kept
+only when consumers, npm, or other tools read it from the installed package.
 
 ## Usage
 
