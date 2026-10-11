@@ -24,6 +24,9 @@ const corepack = "https://nodejs.org/api/corepack.html";
 const yarnPackageExtensions =
 	"https://yarnpkg.com/configuration/yarnrc#packageExtensions";
 
+const schemaStore =
+	"https://github.com/SchemaStore/schemastore/blob/master/src/schemas/json/package.json";
+
 const kept = (source: string, reason: string): FieldPolicy => ({
 	keep: true,
 	reason,
@@ -39,6 +42,10 @@ const removed = (source: string, reason: string): FieldPolicy => ({
 const metadata = "Describes the package on the registry.";
 const install = "npm reads it when the package is installed as a dependency.";
 const runtime = "Consumers or npm commands read it from the installed package.";
+const toolConfig =
+	"Configures a development tool, which does not run in installed packages.";
+const registry = "The registry sets it on publish.";
+const obsolete = "npm no longer reads it.";
 const rootOnly =
 	"Only the project root reads it, so installing the package does not use it.";
 
@@ -108,6 +115,29 @@ export const fieldPolicies: ReadonlyMap<string, FieldPolicy> = new Map([
 	["devEngines", removed(npmDevEngines, rootOnly)],
 	["packageManager", removed(corepack, rootOnly)],
 	["packageExtensions", removed(yarnPackageExtensions, rootOnly)],
+	["allowScripts", removed(schemaStore, rootOnly)],
+	["patchedDependencies", removed(schemaStore, rootOnly)],
+	["pnpm", removed(schemaStore, rootOnly)],
+	["resolutions", removed(schemaStore, rootOnly)],
+	["volta", removed(schemaStore, rootOnly)],
+	["dist", removed(schemaStore, registry)],
+	["maintainers", removed(schemaStore, registry)],
+	["readme", removed(schemaStore, registry)],
+	["engineStrict", removed(schemaStore, obsolete)],
+	["licenses", removed(schemaStore, `${obsolete} Use license instead.`)],
+	["preferGlobal", removed(schemaStore, obsolete)],
+	["esnext", removed(schemaStore, "Bundlers read exports or module instead.")],
+	["jspm", removed(schemaStore, "jspm reads exports instead.")],
+	["ava", removed(schemaStore, toolConfig)],
+	["eslintConfig", removed(schemaStore, toolConfig)],
+	["jscpd", removed(schemaStore, toolConfig)],
+	["madge", removed(schemaStore, toolConfig)],
+	["nodemonConfig", removed(schemaStore, toolConfig)],
+	["prettier", removed(schemaStore, toolConfig)],
+	["quikrun", removed(schemaStore, toolConfig)],
+	["release", removed(schemaStore, toolConfig)],
+	["stackblitz", removed(schemaStore, toolConfig)],
+	["stylelint", removed(schemaStore, toolConfig)],
 ]);
 
 export const isPackageJSONRequiredKey = (
