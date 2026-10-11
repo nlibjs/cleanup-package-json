@@ -3,6 +3,7 @@
 [![npm](https://img.shields.io/npm/v/%40nlib%2Fcleanup-package-json)](https://www.npmjs.com/package/@nlib/cleanup-package-json)
 [![Test](https://github.com/nlibjs/cleanup-package-json/actions/workflows/test.yml/badge.svg)](https://github.com/nlibjs/cleanup-package-json/actions/workflows/test.yml)
 [![codecov](https://codecov.io/gh/nlibjs/cleanup-package-json/branch/main/graph/badge.svg?token=YJG86MybgN)](https://codecov.io/gh/nlibjs/cleanup-package-json)
+[![License](https://img.shields.io/npm/l/%40nlib%2Fcleanup-package-json)](https://github.com/nlibjs/cleanup-package-json/blob/main/LICENSE.txt)
 
 A command line tool to cleanup package.json before publish. It keeps the fields
 used by consumers of the published package and removes the rest, such as
