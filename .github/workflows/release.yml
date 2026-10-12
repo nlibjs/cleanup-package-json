@@ -1,3 +1,7 @@
+# Release and recovery: https://github.com/nlibjs/actions#release-procedure
+# npm Trusted Publisher: nlibjs/cleanup-package-json, release.yml, environment: deployment.
+# Stage and Finalize require deployment approval when environment protection is enabled.
+# cleanup-source: local uses this package's built esm/cli.mjs.
 name: Release
 
 on:
