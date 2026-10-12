@@ -1,7 +1,5 @@
 # Maintainer release guide
 
-The Release workflow pins `nlibjs/actions` to `986b87befafad2f4f990c934165a90ea37ddbf36`, with helper `70dd80ae972e812efcc9606d0ec5d514c8be3982`.
-
 ## Configuration
 
 Configure npm Trusted Publisher for `@nlib/cleanup-package-json` with these values:
