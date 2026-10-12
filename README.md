@@ -98,6 +98,10 @@ Git hooks are not installed automatically. Lint, formatting, and tests run in CI
 If an existing checkout uses the old hooks, remove the setting with
 `git config --local --unset core.hooksPath` when it points to `.githooks`.
 
+## Releases
+
+Maintainers can follow the [release guide](docs/releases.md).
+
 ## LICENSE
 
 The cleanup-package-json project is licensed under the terms of the Apache 2.0 License.
