@@ -37,10 +37,10 @@
 		"commander": "15.0.0"
 	},
 	"devDependencies": {
-		"@biomejs/biome": "2.5.15",
-		"@nlib/changelog": "0.4.0",
+		"@biomejs/biome": "2.6.2",
+		"@nlib/changelog": "0.4.2",
 		"@types/node": "22.20.5",
-		"ava": "8.0.1",
+		"ava": "8.1.1",
 		"c8": "12.0.0",
 		"typescript": "7.0.2"
 	},
