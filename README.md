@@ -10,7 +10,6 @@ used by consumers of the published package and removes the rest, such as
 configuration for linters and test runners.
 
 Kept fields:
-
 - Fields in the [npm documentation](https://docs.npmjs.com/cli/configuring-npm/package-json),
   including `bundleDependencies`, `libc`, and `gypfile`.
 - Fields that Node.js reads: `type`, `imports`, and `exports`.
@@ -18,7 +17,6 @@ Kept fields:
 - Fields that bundlers read: `module` and `sideEffects`.
 
 Removed fields:
-
 - `devDependencies`, even though npm documents it, because installing the
   published package does not install them.
 - `overrides`, `workspaces`, `devEngines`, `packageManager`, and
@@ -29,7 +27,6 @@ Removed fields:
 Each field's reason and source are listed in
 [src/documentedFields.mts](src/documentedFields.mts). The rules apply in this
 order:
-
 1. A field given with `--keep` is kept.
 2. A field listed as removed, such as `devDependencies`, is removed.
 3. A field listed as kept is kept.
